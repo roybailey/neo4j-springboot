@@ -1,0 +1,69 @@
+= Neo4j with SpringBoot and JPA
+:toc:
+
+
+== Motivation
+
+To stand up a working sample of Spring Data JPA and Neo4j working together.
+
+It took a little experimentation to get JPA and Neo4j to work together.  Annotations in the wrong place or wrong order can break it.  So I've bundled up a working project to give others a reference.
+
+
+== Getting Started
+
+> run `mvn clean install` to build application.
+
+
+==== springboot-jpa
+
+Simple boilerplate SpringBoot service with JPA.
+
+> run `SpringBootJpaApplication`
+
+* `Product` domain object and repository
+* Controller with GET, POST (create/update) and DELETE api for Products (See http://localhost:8080/product for Product list)
+* Uses H2 embedded database (See http://localhost:8080/console for H2 console)
+* Sample products loaded at startup (See `ProductLoader`)
+* _Liquibase is used to create RDBMS database schema_
+* _Lombok is used to create domain object boilerplate_
+
+
+
+==== springboot-neo4j
+
+Simple boilerplate SpringBoot service with Neo4j.
+
+> run `SpringBootNeo4jApplication`
+
+* `Movie` domain object and repository
+* Controller with GET, POST (create/update) and DELETE api for Products (See http://localhost:8080/movie for Movie list)
+* Sample movie database loaded at startup (See `MovieLoader`)
+* _Lombok is used to create domain object boilerplate_
+
+
+
+==== springboot-neo4j-jpa
+
+Combining SpringBoot configuration to get both JPA and Neo4j modules to work together.
+
+> run `SpringbootPolyglotPersistenceApplication`
+
+* `ChainedNeo4jSpringConfiguration` extends the Neo4j configuration to chain the JPA transaction manager
+* `PolyglotPersistenceService` shows transaction management working with both JPA and Neo4j
+* `PolyglotPersistenceRepositoryTest` shows both JPA and Neo4j repository access works same as in modules
+* `PolyglotPersistenceControllerTest` shows both JPA and Neo4j controller access works same as in modules
+
+
+
+== Many Thanks
+
+* http://neo4j.com/[Neo4j Graph Database]
+* http://projects.spring.io/spring-data/[Spring Data]
+* https://github.com/FasterXML/jackson[Jackson JSon/XML]
+* https://github.com/OpenFeign/feign[Open Feign Http Client Framework]
+* https://projectlombok.org/[Project Lombok]
+* http://modelmapper.org/[Modal Mapper]
+* http://joel-costigliola.github.io/assertj/[AssertJ]
+* https://github.com/google/guava[Guava]
+* https://www.slf4j.org/[Simple Logging Facade for Java (SLF4J)]
+* https://logback.qos.ch/[LogBack]
