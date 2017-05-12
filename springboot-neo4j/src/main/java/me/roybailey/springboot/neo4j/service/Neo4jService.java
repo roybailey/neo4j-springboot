@@ -24,7 +24,7 @@ public class Neo4jService {
 
 
     public Neo4jTemplate getNeo4jTemplate() {
-        return new Neo4jTemplate(neo4jSessionFactory.openSession());
+        return new Neo4jTemplate(neo4jSessionFactory);
     }
 
 

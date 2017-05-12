@@ -61,8 +61,14 @@ public class ProductLoader implements ApplicationListener<ContextRefreshedEvent>
                             .price(BigDecimal.valueOf(34.95))
                             .build()
             );
+            System.out.println();
+            System.out.println();
+            System.out.println();
             productRepository.save(products);
             log.info("Loaded sample products: " + products);
+            System.out.println();
+            System.out.println();
+            System.out.println();
         }
         return products;
     }
