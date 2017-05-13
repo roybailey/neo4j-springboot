@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@EnableJpaRepositories("me.roybailey.springboot.jpa.repository")
-@EnableNeo4jRepositories("me.roybailey.springboot.neo4j.repository")
+@EnableJpaRepositories(value = "me.roybailey.springboot.jpa.repository")
+@EnableNeo4jRepositories(value = "me.roybailey.springboot.neo4j.repository")
 public class ChainedNeo4jSpringConfiguration extends Neo4jRepositoryConfiguration {
 
     @Autowired

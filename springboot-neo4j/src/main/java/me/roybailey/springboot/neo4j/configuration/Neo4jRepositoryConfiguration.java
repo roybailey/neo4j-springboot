@@ -5,6 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @Configuration
+@ConditionalOnProperty(value = "neo4j.default.config.enabled", havingValue = "true", matchIfMissing = true)
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableNeo4jRepositories("me.roybailey.springboot.neo4j.repository")
