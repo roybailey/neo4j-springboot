@@ -18,4 +18,4 @@ build/
 target/
 node_modules/
 .gradle/
-
+*.versionsBackup
