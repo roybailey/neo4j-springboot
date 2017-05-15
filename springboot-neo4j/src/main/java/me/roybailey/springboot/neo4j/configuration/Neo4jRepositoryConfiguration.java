@@ -5,14 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -23,10 +23,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class Neo4jRepositoryConfiguration {
 
     @Value("${neo4j.driver}")
-    String neo4jDriver;
+    protected String neo4jDriver;
 
     @Value("${neo4j.uri}")
-    String neo4jURI;
+    protected String neo4jURI;
+
 
     /**
      * Create the Neo4j configuration here so we can use spring properties instead of ogm.properties
@@ -45,9 +46,10 @@ public class Neo4jRepositoryConfiguration {
 
     @Bean
     public SessionFactory getSessionFactory() {
-        return new SessionFactory(
+        SessionFactory sessionFactory = new SessionFactory(
                 neo4jConfiguration(),
                 "me.roybailey.springboot.neo4j.domain");
+        return sessionFactory;
     }
 
     @Bean

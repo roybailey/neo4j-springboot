@@ -1,7 +1,18 @@
 package me.roybailey.springboot.neo4j.repository;
 
+import apoc.coll.Coll;
+import apoc.convert.Json;
+import apoc.create.Create;
+import apoc.help.Help;
+import apoc.index.FulltextIndex;
+import apoc.load.LoadJson;
+import apoc.load.Xml;
+import apoc.meta.Meta;
+import apoc.path.PathExplorer;
+import apoc.refactor.GraphRefactoring;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import me.roybailey.springboot.neo4j.service.Neo4jService;
 import org.assertj.core.api.JUnitBDDSoftAssertions;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -23,6 +34,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -33,11 +45,14 @@ public class Neo4jProcedureTest {
 
 
     @Autowired
+    Neo4jService neo4jService;
+
+    @Autowired
     SessionFactory sessionFactory;
 
 
     @Rule
-    public TestName name= new TestName();
+    public TestName name = new TestName();
 
     @Rule
     public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
@@ -50,12 +65,12 @@ public class Neo4jProcedureTest {
     public void testNeo4jQuery() {
 
         Session session = sessionFactory.openSession();
-        Result result = session.query("match (n) return n limit 10", ImmutableMap.of());
+        Result result = session.query("MATCH (n) RETURN n LIMIT 10", ImmutableMap.of());
 
         assertThat(result).isNotNull();
         List<Map<String, Object>> dataList = StreamSupport.stream(result.spliterator(), false)
                 .collect(Collectors.toList());
-        log.info("data\n{}",dataList);
+        log.info("data\n{}", dataList);
         assertThat(dataList).isNotNull();
         assertThat(dataList.size()).isGreaterThan(0);
     }
@@ -73,7 +88,7 @@ public class Neo4jProcedureTest {
         assertThat(result).isNotNull();
         List<Map<String, Object>> dataList = StreamSupport.stream(result.spliterator(), false)
                 .collect(Collectors.toList());
-        log.info("data\n{}",dataList);
+        log.info("data\n{}", dataList);
         assertThat(dataList).isNotNull();
         assertThat(dataList.size()).isGreaterThan(0);
     }
@@ -83,17 +98,31 @@ public class Neo4jProcedureTest {
      * Test we can call out to https://neo4j-contrib.github.io/neo4j-apoc-procedures
      * to show the plugin is installed correctly
      */
-    @Ignore("Need to work out how to get apoc loaded into impermanent embedded neo4j instance")
     @Test
     public void testNeo4jApocProcedureCalls() {
 
+        neo4jService.registerProcedures(asList(
+                Help.class,
+                Coll.class,
+                apoc.map.Maps.class,
+                Json.class,
+                Create.class,
+                apoc.date.Date.class,
+                FulltextIndex.class,
+                apoc.lock.Lock.class,
+                LoadJson.class,
+                Xml.class,
+                PathExplorer.class,
+                Meta.class,
+                GraphRefactoring.class)
+        );
         Session session = sessionFactory.openSession();
-        Result result = session.query("CALL apoc.help(\"apoc\")", ImmutableMap.of());
+        Result result = session.query("CALL apoc.help('apoc')", ImmutableMap.of());
 
         assertThat(result).isNotNull();
         List<Map<String, Object>> dataList = StreamSupport.stream(result.spliterator(), false)
                 .collect(Collectors.toList());
-        log.info("data\n{}",dataList);
+        log.info("data\n{}", dataList);
         assertThat(dataList).isNotNull();
         assertThat(dataList.size()).isGreaterThan(0);
     }

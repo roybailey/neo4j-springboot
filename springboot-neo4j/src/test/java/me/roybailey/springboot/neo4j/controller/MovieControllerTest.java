@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -79,8 +80,8 @@ int port;
 
     @Before
     public void graphCleanup() {
-        Neo4jTemplate neo4jTemplate = neo4jService.getNeo4jTemplate();
-        neo4jTemplate.query("match (m:Movie) where m.title =~ 'TEST.*' delete m", ImmutableMap.of());
+        Session session = neo4jService.getNeo4jSessionFactory().openSession();
+        session.query("match (m:Movie) where m.title =~ 'TEST.*' delete m", ImmutableMap.of());
     }
 
 
