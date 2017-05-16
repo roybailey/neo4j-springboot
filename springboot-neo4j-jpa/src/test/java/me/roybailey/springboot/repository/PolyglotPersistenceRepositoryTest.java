@@ -12,10 +12,12 @@ import me.roybailey.springboot.neo4j.repository.PersonRepository;
 import me.roybailey.springboot.neo4j.service.Neo4jService;
 import me.roybailey.springboot.neo4j.service.PolyglotPersistenceService;
 import org.assertj.core.api.JUnitBDDSoftAssertions;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -32,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PolyglotPersistenceRepositoryTest {
 
     @Autowired

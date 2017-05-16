@@ -35,11 +35,12 @@ import java.util.List;
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PolyglotPersistenceControllerTest {
-@LocalServerPort
-int port;
+
+    @LocalServerPort
+    int port;
 
     @Rule
-    public TestName name= new TestName();
+    public TestName name = new TestName();
 
     @Rule
     public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
@@ -90,7 +91,7 @@ int port;
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .logLevel(Logger.Level.BASIC)
-                .target(Neo4jMovieApi.class, "http://localhost:"+port);
+                .target(Neo4jMovieApi.class, "http://localhost:" + port);
     }
 
     @Before
@@ -151,7 +152,7 @@ int port;
     @Before
     public void graphCleanup() {
         Session session = neo4jService.getNeo4jSessionFactory().openSession();
-        session.query("match (m:Movie) where m.title =~ 'TEST.*' delete m", ImmutableMap.of());
+        session.query("MATCH (m:Movie) WHERE m.title =~ 'TEST.*' DELETE m", ImmutableMap.of());
     }
 
 

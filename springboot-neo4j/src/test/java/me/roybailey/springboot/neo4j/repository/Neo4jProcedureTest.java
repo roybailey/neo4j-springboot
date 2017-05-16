@@ -14,11 +14,13 @@ import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import me.roybailey.springboot.neo4j.service.Neo4jService;
 import org.assertj.core.api.JUnitBDDSoftAssertions;
+import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.neo4j.ogm.model.Result;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
@@ -37,10 +39,12 @@ import java.util.stream.StreamSupport;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Neo4jProcedureTest {
 
 

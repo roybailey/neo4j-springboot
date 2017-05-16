@@ -19,17 +19,11 @@ import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.neo4j.template.Neo4jTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
@@ -38,11 +32,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MovieControllerTest {
-@LocalServerPort
-int port;
+
+    @LocalServerPort
+    int port;
 
     @Rule
-    public TestName name= new TestName();
+    public TestName name = new TestName();
 
     @Rule
     public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
@@ -72,7 +67,7 @@ int port;
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .logLevel(Logger.Level.BASIC)
-                .target(Neo4jMovieApi.class, "http://localhost:"+port);
+                .target(Neo4jMovieApi.class, "http://localhost:" + port);
     }
 
     @Autowired
@@ -81,7 +76,7 @@ int port;
     @Before
     public void graphCleanup() {
         Session session = neo4jService.getNeo4jSessionFactory().openSession();
-        session.query("match (m:Movie) where m.title =~ 'TEST.*' delete m", ImmutableMap.of());
+        session.query("MATCH (m:Movie) WHERE m.title =~ 'TEST.*' DELETE m", ImmutableMap.of());
     }
 
 

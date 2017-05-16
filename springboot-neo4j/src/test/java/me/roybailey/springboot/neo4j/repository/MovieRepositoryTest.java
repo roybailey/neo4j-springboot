@@ -8,10 +8,12 @@ import me.roybailey.springboot.neo4j.service.Neo4jService;
 import org.assertj.core.api.JUnitBDDSoftAssertions;
 import org.assertj.core.api.SoftAssertionListAssert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -24,10 +26,12 @@ import java.util.stream.StreamSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MovieRepositoryTest {
 
 
