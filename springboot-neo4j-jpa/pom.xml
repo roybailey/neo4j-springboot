@@ -12,7 +12,7 @@
     <parent>
         <groupId>me.roybailey</groupId>
         <artifactId>neo4j-springboot</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <dependencies>
