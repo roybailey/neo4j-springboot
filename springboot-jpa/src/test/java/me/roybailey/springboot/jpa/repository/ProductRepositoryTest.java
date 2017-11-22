@@ -67,5 +67,10 @@ public class ProductRepositoryTest {
 
         //verify count of products in DB
         softly.then(productRepository.count()).isEqualTo(4);
+
+        productRepository.delete(product.getId());
+
+        //verify count of products in DB
+        softly.then(productRepository.count()).isEqualTo(3);
     }
 }
