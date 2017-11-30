@@ -9,7 +9,6 @@ import org.neo4j.kernel.api.exceptions.KernelException;
 import org.neo4j.kernel.impl.proc.Procedures;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver;
-import org.neo4j.ogm.service.Components;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class Neo4jService {
 
     public void registerProcedures(List<Class<?>> toRegister) {
         if(isEmbedded()) {
-            EmbeddedDriver embeddedDriver = (EmbeddedDriver) Components.driver();
+            EmbeddedDriver embeddedDriver = (EmbeddedDriver) neo4jSessionFactory.getDriver();
             GraphDatabaseService databaseService = embeddedDriver.getGraphDatabaseService();
             Procedures procedures = ((GraphDatabaseAPI) databaseService).getDependencyResolver().resolveDependency(Procedures.class);
             toRegister.forEach((proc) -> {

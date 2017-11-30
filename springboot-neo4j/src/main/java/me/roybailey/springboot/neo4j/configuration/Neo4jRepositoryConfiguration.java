@@ -2,6 +2,8 @@ package me.roybailey.springboot.neo4j.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.neo4j.ogm.config.ClasspathConfigurationSource;
+import org.neo4j.ogm.config.ConfigurationSource;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,12 +38,11 @@ public class Neo4jRepositoryConfiguration {
     public org.neo4j.ogm.config.Configuration neo4jConfiguration() {
         log.info("neo4j.driver=" + neo4jDriver);
         log.info("neo4j.uri=" + neo4jURI);
-        org.neo4j.ogm.config.Configuration configuration = new org.neo4j.ogm.config.Configuration();
-        configuration.driverConfiguration().setDriverClassName(neo4jDriver);
+        org.neo4j.ogm.config.Configuration.Builder configuration = new org.neo4j.ogm.config.Configuration.Builder();
         // only set the URI if it has a value, as not setting it for embedded is needed to create impermanent database
         if (!StringUtils.isEmpty(neo4jURI))
-            configuration.driverConfiguration().setURI(neo4jURI);
-        return configuration;
+            configuration.uri(neo4jURI);
+        return configuration.build();
     }
 
     @Bean

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -49,8 +50,8 @@ public class MovieController {
     @ResponseBody
     @GetMapping(path = "/movie/{id}")
     public ResponseEntity<?> getMovie(@PathVariable Long id) {
-        Movie movie = movieRepository.findOne(id);
-        return ResponseEntity.ok(movie);
+        Optional<Movie> movie = movieRepository.findById(id);
+        return (movie.isPresent())? ResponseEntity.ok(movie.get()) : ResponseEntity.notFound().build();
     }
 
 
@@ -65,7 +66,7 @@ public class MovieController {
     @ResponseBody
     @DeleteMapping(path = "/movie/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
-        movieRepository.delete(id);
+        movieRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -66,7 +66,7 @@ public class ProductLoader implements ApplicationListener<ContextRefreshedEvent>
                             .price(BigDecimal.valueOf(34.95))
                             .build()
             );
-            productRepository.save(products);
+            productRepository.saveAll(products);
             // this was used to help debug issues getting Neo4j and JPA to work together
             List<Product> reread = StreamSupport.stream(productRepository.findAll().spliterator(), false)
                     .collect(Collectors.toList());

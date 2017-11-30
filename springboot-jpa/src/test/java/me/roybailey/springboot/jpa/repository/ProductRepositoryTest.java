@@ -47,7 +47,7 @@ public class ProductRepositoryTest {
         productRepository.save(product);
         softly.then(product.getId()).isNotNull(); //not null after save
         //fetch from DB
-        Product fetchedProduct = productRepository.findOne(product.getId());
+        Product fetchedProduct = productRepository.findById(product.getId()).orElse(null);
 
         //should not be null
         softly.then(fetchedProduct).isNotNull();
@@ -62,13 +62,13 @@ public class ProductRepositoryTest {
         productRepository.save(fetchedProduct);
 
         //get from DB, should be updated
-        Product fetchedUpdatedProduct = productRepository.findOne(fetchedProduct.getId());
+        Product fetchedUpdatedProduct = productRepository.findById(fetchedProduct.getId()).orElse(null);
         softly.then(fetchedUpdatedProduct.getDescription()).isEqualTo(fetchedProduct.getDescription());
 
         //verify count of products in DB
         softly.then(productRepository.count()).isEqualTo(4);
 
-        productRepository.delete(product.getId());
+        productRepository.deleteById(product.getId());
 
         //verify count of products in DB
         softly.then(productRepository.count()).isEqualTo(3);

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Slf4j
 @Controller
 public class ProductController {
@@ -25,11 +27,8 @@ public class ProductController {
     public ResponseEntity<?> getProduct(@PathVariable Long id) {
 
         log.info("getProduct({})", id);
-        Product product = productRepository.findOne(id);
-        if(product != null)
-            return ResponseEntity.ok(product);
-
-        return ResponseEntity.notFound().build();
+        Optional<Product> product = productRepository.findById(id);
+        return (product.isPresent())? ResponseEntity.ok(product): ResponseEntity.notFound().build();
     }
 
     @PostMapping(value = "/product")
@@ -43,7 +42,7 @@ public class ProductController {
     @DeleteMapping(value = "/product/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
 
-        productRepository.delete(id);
+        productRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
