@@ -5,11 +5,10 @@ import com.google.common.io.Resources;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.kernel.api.exceptions.KernelException;
+import org.neo4j.internal.kernel.api.exceptions.KernelException;
 import org.neo4j.kernel.impl.proc.Procedures;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver;
-import org.neo4j.ogm.service.Components;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +43,8 @@ public class Neo4jService {
 
     public void registerProcedures(List<Class<?>> toRegister) {
         if(isEmbedded()) {
-            EmbeddedDriver embeddedDriver = (EmbeddedDriver) Components.driver();
-            GraphDatabaseService databaseService = embeddedDriver.getGraphDatabaseService();
+            EmbeddedDriver embeddedDriver = neo4jSessionFactory.unwrap(EmbeddedDriver.class);
+            GraphDatabaseService databaseService = embeddedDriver.unwrap(GraphDatabaseService.class);
             Procedures procedures = ((GraphDatabaseAPI) databaseService).getDependencyResolver().resolveDependency(Procedures.class);
             toRegister.forEach((proc) -> {
                 try {

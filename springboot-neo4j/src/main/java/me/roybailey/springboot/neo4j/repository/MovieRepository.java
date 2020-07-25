@@ -4,14 +4,14 @@ import me.roybailey.springboot.neo4j.domain.Movie;
 import me.roybailey.springboot.neo4j.domain.Person;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.annotation.QueryResult;
-import org.springframework.data.neo4j.repository.GraphRepository;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
 
 
-public interface MovieRepository extends GraphRepository<Movie> {
+public interface MovieRepository extends Neo4jRepository<Movie,Long> {
 
     /**
      * Simple auto-derived finder by title

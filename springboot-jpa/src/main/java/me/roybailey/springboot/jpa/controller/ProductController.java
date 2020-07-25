@@ -25,7 +25,7 @@ public class ProductController {
     public ResponseEntity<?> getProduct(@PathVariable Long id) {
 
         log.info("getProduct({})", id);
-        Product product = productRepository.findOne(id);
+        Product product = productRepository.findById(id).orElse(null);
         if(product != null)
             return ResponseEntity.ok(product);
 
@@ -43,7 +43,7 @@ public class ProductController {
     @DeleteMapping(value = "/product/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
 
-        productRepository.delete(id);
+        productRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

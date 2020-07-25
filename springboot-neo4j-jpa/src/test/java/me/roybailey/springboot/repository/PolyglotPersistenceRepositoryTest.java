@@ -93,7 +93,7 @@ public class PolyglotPersistenceRepositoryTest {
         assertThat(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT +2);
 
         //fetch from DB
-        Movie fetchedMovie = movieRepository.findOne(movie.getId());
+        Movie fetchedMovie = movieRepository.findById(movie.getId()).orElse(null);
 
         //should not be null
         assertThat(fetchedMovie).isNotNull();
@@ -108,14 +108,14 @@ public class PolyglotPersistenceRepositoryTest {
         movieRepository.save(fetchedMovie);
 
         //get from DB, should be updated
-        Movie fetchedUpdatedMovie = movieRepository.findOne(fetchedMovie.getId());
+        Movie fetchedUpdatedMovie = movieRepository.findById(fetchedMovie.getId()).orElse(null);
         softly.then(fetchedUpdatedMovie.getTitle()).isEqualTo(fetchedMovie.getTitle());
 
         //verify counts in DB, delete our test data, verify restored counts
         softly.then(movieRepository.count()).isEqualTo(EXPECTED_MOVIE_COUNT +1);
-        movieRepository.delete(fetchedUpdatedMovie.getId());
+        movieRepository.deleteById(fetchedUpdatedMovie.getId());
         softly.then(movieRepository.count()).isEqualTo(EXPECTED_MOVIE_COUNT);
-        personRepository.delete(movie.getActors());
+        personRepository.deleteAll(movie.getActors());
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT);
     }
 
@@ -139,7 +139,7 @@ public class PolyglotPersistenceRepositoryTest {
         productRepository.save(product);
         softly.then(product.getId()).isNotNull(); //not null after save
         //fetch from DB
-        Product fetchedProduct = productRepository.findOne(product.getId());
+        Product fetchedProduct = productRepository.findById(product.getId()).orElse(null);
 
         //should not be null
         softly.then(fetchedProduct).isNotNull();
@@ -154,12 +154,12 @@ public class PolyglotPersistenceRepositoryTest {
         productRepository.save(fetchedProduct);
 
         //get from DB, should be updated
-        Product fetchedUpdatedProduct = productRepository.findOne(fetchedProduct.getId());
+        Product fetchedUpdatedProduct = productRepository.findById(fetchedProduct.getId()).orElse(null);
         softly.then(fetchedUpdatedProduct.getDescription()).isEqualTo(fetchedProduct.getDescription());
 
         //verify count of products in DB
         softly.then(productRepository.count()).isEqualTo(EXPECTED_PRODUCT_COUNT+1);
-        productRepository.delete(fetchedUpdatedProduct.getId());
+        productRepository.deleteById(fetchedUpdatedProduct.getId());
         softly.then(productRepository.count()).isEqualTo(EXPECTED_PRODUCT_COUNT);
 
     }

@@ -53,7 +53,7 @@ public class PersonRepositoryTest {
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT +1);
 
         //fetch from DB
-        Person fetchedPerson = personRepository.findOne(person.getId());
+        Person fetchedPerson = personRepository.findById(person.getId()).orElse(null);
 
         //should not be null
         softly.then(fetchedPerson).isNotNull();
@@ -68,12 +68,12 @@ public class PersonRepositoryTest {
         personRepository.save(fetchedPerson);
 
         //get from DB, should be updated
-        Person fetchedUpdatedPerson = personRepository.findOne(fetchedPerson.getId());
+        Person fetchedUpdatedPerson = personRepository.findById(fetchedPerson.getId()).orElse(null);
         softly.then(fetchedUpdatedPerson.getName()).isEqualTo(fetchedPerson.getName());
 
         //verify counts in DB, delete our test data, verify restored counts
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT+1);
-        personRepository.delete(person.getId());
+        personRepository.deleteById(person.getId());
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT);
     }
 }
