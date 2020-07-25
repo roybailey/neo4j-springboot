@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.roybailey.springboot.jpa.domain.Product;
 import me.roybailey.springboot.neo4j.domain.Movie;
 import me.roybailey.springboot.neo4j.service.Neo4jService;
+import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
 import org.assertj.core.api.JUnitBDDSoftAssertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -18,9 +19,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.neo4j.template.Neo4jTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,6 +35,11 @@ import java.util.List;
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PolyglotPersistenceControllerTest {
+
+    static {
+        // FIXME: why do I need to do this? (fails in maven build without it)
+        TomcatURLStreamHandlerFactory.disable();
+    }
 
     @LocalServerPort
     int port;

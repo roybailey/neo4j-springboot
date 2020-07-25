@@ -49,7 +49,7 @@ public class MovieController {
     @ResponseBody
     @GetMapping(path = "/movie/{id}")
     public ResponseEntity<?> getMovie(@PathVariable Long id) {
-        Movie movie = movieRepository.findOne(id);
+        Movie movie = movieRepository.findById(id).orElse(null);
         return ResponseEntity.ok(movie);
     }
 
@@ -65,7 +65,7 @@ public class MovieController {
     @ResponseBody
     @DeleteMapping(path = "/movie/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
-        movieRepository.delete(id);
+        movieRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }

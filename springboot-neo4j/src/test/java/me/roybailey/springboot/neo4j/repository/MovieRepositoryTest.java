@@ -136,7 +136,7 @@ public class MovieRepositoryTest {
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT +2);
 
         //fetch from DB
-        Movie fetchedMovie = movieRepository.findOne(movie.getId());
+        Movie fetchedMovie = movieRepository.findById(movie.getId()).orElse(null);
 
         //should not be null
         softly.then(fetchedMovie).isNotNull();
@@ -151,14 +151,14 @@ public class MovieRepositoryTest {
         movieRepository.save(fetchedMovie);
 
         //get from DB, should be updated
-        Movie fetchedUpdatedMovie = movieRepository.findOne(fetchedMovie.getId());
+        Movie fetchedUpdatedMovie = movieRepository.findById(fetchedMovie.getId()).orElse(null);
         softly.then(fetchedUpdatedMovie.getTitle()).isEqualTo(fetchedMovie.getTitle());
 
         //verify counts in DB, delete our test data, verify restored counts
         softly.then(movieRepository.count()).isEqualTo(EXPECTED_MOVIE_COUNT +1);
-        movieRepository.delete(fetchedUpdatedMovie.getId());
+        movieRepository.deleteById(fetchedUpdatedMovie.getId());
         softly.then(movieRepository.count()).isEqualTo(EXPECTED_MOVIE_COUNT);
-        personRepository.delete(movie.getActors());
+        personRepository.deleteAll(movie.getActors());
         softly.then(personRepository.count()).isEqualTo(EXPECTED_PERSON_COUNT);
     }
 }

@@ -1,7 +1,8 @@
 package me.roybailey.springboot.neo4j.domain;
 
 import lombok.*;
-import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NoArgsConstructor
@@ -11,7 +12,8 @@ import org.neo4j.ogm.annotation.NodeEntity;
 @NodeEntity
 public class Person {
 
-    @GraphId
+    @Id
+    @GeneratedValue
     Long id;
 
     @Getter
